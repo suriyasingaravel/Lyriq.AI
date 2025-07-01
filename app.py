@@ -1,8 +1,6 @@
 # app.py
-import os
 import streamlit as st
-from openai import OpenAI, OpenAIError
-
+from openai import OpenAI
 
 st.set_page_config(
     page_title="🎤Lyriq.AI",
@@ -49,7 +47,7 @@ if audio_file:
                     file=audio_file,
                     response_format="text"
                 )
-            except OpenAIError as e:
+            except Exception as e:
                 st.error(f"❌ Transcription error: {e}")
                 st.stop()
         
@@ -71,7 +69,7 @@ if audio_file:
                     temperature=0.5,
                 )
                 lyrics = chat_resp.choices[0].message.content.strip()
-            except OpenAIError:
+            except Exception:
                 # Fallback to raw transcript if GPT formatting fails
                 lyrics = transcript
         
